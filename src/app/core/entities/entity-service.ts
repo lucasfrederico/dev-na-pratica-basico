@@ -16,6 +16,14 @@ export class EntityService<T> {
     return this.http.get<T[]>(this.entityUrl, {}).pipe(this.defaultCatch());
   }
 
+  public insert(entity: T) {
+    return this.http.post<T[]>(this.entityUrl, entity).pipe(this.defaultCatch());
+  }
+
+  public update(id: any, entity: T) {
+    return this.http.put<T[]>(`${this.entityUrl}/${id}`, entity).pipe(this.defaultCatch());
+  }
+
   public defaultCatch() {
     return catchError((err: any) => {
       if (err) {

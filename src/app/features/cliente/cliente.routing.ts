@@ -6,10 +6,13 @@ import { ClienteListComponent } from './views/cliente-list/cliente-list.componen
 const routes: Routes = [{
   path: 'cliente',  children: [
     {
-      path: 'form', component: ClienteFormComponent
+      path: 'create', component: ClienteFormComponent
     },
     {
       path: 'list', component: ClienteListComponent
+    },
+    {
+      path: 'edit', component: ClienteListComponent
     }
   ]
 }];

@@ -11,7 +11,7 @@ export class ClienteService extends EntityService<ClienteDto> {
     constructor(protected http: HttpClient, protected messageService: MessageService) {
         super(
             http,
-            `domain/service/entities/cliente`
+            `furb/basico/entities/cliente`
         );
     }
 }
