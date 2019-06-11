@@ -11,6 +11,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { CalendarModule } from 'primeng/calendar';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { MessageService } from 'primeng/api';
+import { MessageModule } from 'primeng/message';
+import { ToastModule } from 'primeng/toast';
+import { ClienteResolver } from './views/cliente-form/cliente.resolver';
 
 @NgModule({
   declarations: [ClienteFormComponent, ClienteListComponent],
@@ -24,7 +28,13 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     InputTextModule,
     KeyFilterModule,
     CalendarModule,
-    RadioButtonModule
+    RadioButtonModule,
+    MessageModule,
+    ToastModule
+  ],
+  providers: [
+    MessageService,
+    ClienteResolver
   ]
 })
 export class ClienteModule { }

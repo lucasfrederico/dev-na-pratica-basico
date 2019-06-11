@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Cliente } from 'src/app/core/entities/cliente/cliente';
 import { ClienteService } from 'src/app/core/entities/cliente/cliente.service';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
+import { throwError, Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -15,6 +15,7 @@ export class ClienteFormComponent implements OnInit {
   public clienteForm: FormGroup;
   @Input() cliente: Cliente;
   private routeParams: any;
+  private ngUnsubscribe = new Subject();
 
   constructor(
     private clienteService: ClienteService,
@@ -26,6 +27,9 @@ export class ClienteFormComponent implements OnInit {
   ngOnInit() {
 
     this.clienteForm = this.getFormGroup();
+
+    this.route.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe((params: any) => this.onRouteParamsChange(params));
+    this.route.data.pipe(takeUntil(this.ngUnsubscribe)).subscribe((data: any) => this.onRouteDataChange(data));
 
   }
 
@@ -67,12 +71,26 @@ export class ClienteFormComponent implements OnInit {
   }
 
   public isNew() {
-    return true;
+    return this.routeParams.id === undefined;
   }
 
   private goBack() {
-    const previousRoute = '../';
+    const previousRoute = '/cliente/list';
     this.router.navigate([previousRoute], { relativeTo: this.route.parent });
+  }
+
+  public onRouteDataChange(data: any) {
+    const entity = data[0];
+    if (data[0]) {
+        const value: any = Cliente.fromDto(entity);
+        this.clienteForm.patchValue(value);
+    } else {
+        this.clienteForm.patchValue(new Cliente());
+    }
+  }
+
+  public onRouteParamsChange(params: any) {
+    this.routeParams = params;
 }
 
   private getSaveObservable() {
@@ -84,7 +102,7 @@ export class ClienteFormComponent implements OnInit {
     if (this.isNew()) {
         observable = this.clienteService.insert(clienteDto);
     } else {
-        const id = this.routeParams.pais;
+        const id = this.routeParams.id;
         observable = this.clienteService.update(id, clienteDto);
     }
 
