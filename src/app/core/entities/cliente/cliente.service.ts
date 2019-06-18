@@ -11,7 +11,7 @@ export class ClienteService extends EntityService<ClienteDto> {
     constructor(protected http: HttpClient, protected messageService: MessageService) {
         super(
             http,
-            `furb/basico/entities/cliente`
+            `https://platform-homologx.senior.com.br/t/senior.com.br/bridge/1.0/rest/furb/basico/entities/cliente`
         );
     }
 }

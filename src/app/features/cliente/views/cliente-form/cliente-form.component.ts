@@ -5,6 +5,7 @@ import { ClienteService } from 'src/app/core/entities/cliente/cliente.service';
 import { catchError, takeUntil } from 'rxjs/operators';
 import { throwError, Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-cliente-form',
@@ -21,6 +22,7 @@ export class ClienteFormComponent implements OnInit {
     private clienteService: ClienteService,
     private formBuilder: FormBuilder,
     private router: Router,
+    private messageService: MessageService,
     private route: ActivatedRoute
     ) { }
 
@@ -101,6 +103,12 @@ export class ClienteFormComponent implements OnInit {
 
     if (this.isNew()) {
         observable = this.clienteService.insert(clienteDto);
+        this.messageService.add({
+          key: 'form-toast',
+          severity: 'success',
+          summary: `Sucesso!`,
+          detail: `O cliente foi inserido com sucesso!`
+        });
     } else {
         const id = this.routeParams.id;
         observable = this.clienteService.update(id, clienteDto);
