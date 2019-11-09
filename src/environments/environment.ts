@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  BASE_URL: 'https://arq.senior.com.br:8243/t/senior.com.br/bridge/1.0',
+  TOKEN: '02cb99c4-c156-3f35-a8b1-cf359d5da296'
 };
 
 /*

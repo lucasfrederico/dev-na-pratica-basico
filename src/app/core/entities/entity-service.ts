@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators/';
 import { throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export class EntityService<T> {
   public headers: HttpHeaders;
@@ -11,7 +12,7 @@ export class EntityService<T> {
   ) {
     this.http = http;
     this.entityUrl = entityUrl;
-    this.headers = new HttpHeaders().set('Authorization', 'Bearer 63b7c2003e0d44c5a5b5a815e559ef88');
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${environment.TOKEN}`);
   }
 
   public list() {
